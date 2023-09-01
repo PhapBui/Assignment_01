@@ -5,7 +5,7 @@ const { paging } = require("../utils/paging.js");
 // /movies
 exports.getMovies = (req, res, next) => {
   Movies.all((movies) => {
-    res.json({ results: movies, page: 1, total_pages: 248 });
+    res.status(200).json(paging(movies));
   });
 };
 
@@ -42,11 +42,11 @@ exports.getMoviesByCategory = (req, res, next) => {
         ((genre_id, geners) => {
           const finder = geners.find((gener) => gener.id === +genre_id);
 
-          respones.genre_name = finder.name;
+          respones.genre_name = finder?.name;
         }).bind(null, +genre_id)
       );
 
-      Movies.getByCateGory((movies) => {
+      Movies.all((movies) => {
         const movidesFilter = movies.filter((movie) =>
           movie.genre_ids.includes(+genre_id)
         );
@@ -119,7 +119,7 @@ exports.getMovieTrailerById = (req, res, next) => {
 exports.getMovieByKeyword = (req, res, next) => {
   const {
     keyword,
-    genre: genre_ids,
+    genre_id: genre_ids,
     mediaType: media_type,
     language: original_language,
     year: release_date,

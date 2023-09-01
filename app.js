@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATH, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
@@ -24,4 +24,5 @@ app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-app.listen(8080);
+const port = 8080;
+app.listen(port, () => console.log(`app started at port: ${port}`));
