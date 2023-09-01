@@ -28,4 +28,8 @@ const Genres = {
   all: (cb) => getContentFromFile(cb, "genreList.json"),
 };
 
-module.exports = { Movies, Videos, UserTokens, Genres };
+const MediaType = {
+  all: (cb) => getContentFromFile(cb, "mediaTypeList.json"),
+};
+
+module.exports = { Movies, Videos, UserTokens, Genres, MediaType };

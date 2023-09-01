@@ -1,4 +1,4 @@
-const { UserTokens } = require("../models/Movies");
+const { UserTokens } = require("../models/movies");
 
 exports.authorize = (req, res, next) => {
   const { token } = req.query;
