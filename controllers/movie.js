@@ -13,7 +13,7 @@ exports.getMovies = (req, res, next) => {
 // /api/movies/:category
 exports.getMoviesByCategory = (req, res, next) => {
   const { category: param } = req.params;
-  let { page, genre_id } = req.query;
+  let { page, genre } = req.query;
 
   switch (param) {
     //Get movies by trending
@@ -37,26 +37,26 @@ exports.getMoviesByCategory = (req, res, next) => {
     // Get movies by category
     case "discover":
       const respones = {};
-      if (!genre_id) {
+      if (!genre) {
         res.status(400).json({ message: "Not found gerne parram" });
         return;
       }
       Genres.all(
-        ((genre_id, geners) => {
-          const finder = geners.find((gener) => gener.id === +genre_id);
+        ((genre, geners) => {
+          const finder = geners.find((gener) => gener.id === +genre);
 
           respones.genre_name = finder?.name;
-        }).bind(null, +genre_id)
+        }).bind(null, +genre)
       );
 
       Movies.all((movies) => {
         const movidesFilter = movies.filter((movie) =>
-          movie.genre_ids.includes(+genre_id)
+          movie.genre_ids.includes(+genre)
         );
         if (movidesFilter.length <= 0) {
           res
             .status(400)
-            .json({ message: "Not found that gerne id: " + genre_id });
+            .json({ message: "Not found that gerne id: " + genre });
           return;
         } else {
           res
@@ -191,13 +191,14 @@ exports.getMovieByKeyword = (req, res, next) => {
 };
 
 //get genre list
-
+// /api/movies/genres
 exports.getGenres = (req, res, next) => {
   Genres.all((genres) => {
     res.status(200).json(genres);
   });
 };
-
+//get media types
+// /api/movies/media-types
 exports.getMediaTypes = (req, res, next) => {
   MediaType.all((types) => {
     res.status(200).json(types);
